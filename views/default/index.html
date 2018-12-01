@@ -1,0 +1,39 @@
+{{extend 'layout.html'}}
+
+{{block head}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script>
+    //Post URLS
+    var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
+    var get_post_list_url = "{{=URL('api', 'get_post_list')}}";
+
+    var is_logged_in = {{='false' if auth.user is None else 'true'}};
+</script>
+{{end}}
+
+<div class="main_content">
+  <div id="vue-div" class="display:none">
+    <!--This is the Main Page HTML code 
+      ####################################################################-->
+    <div class="main_page" style="background-color: red">
+      <p>This is the main page</p>
+      <!-- Message in case there are no posts. -->
+      <div v-if="post_list.length === 0">There are no posts.</div>
+        <!-- We display the posts. -->
+        <div id="post_list">
+          <div class="post_div" v-for="post in post_list">
+              <div v-on:click=window.location="{{=URL('default','postpage',args=['10'])}}";>
+                <div class="post_title">${post.post_title}</div>
+                <div class="post_description">${post.post_description}</div>
+                <div class="post_price">${post.post_price}</div>
+                <div class="post_city">${post.post_city}</div>
+                <img width="200" height="200" v-bind:src="post.post_image"/>
+                <div class="attributes"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>
